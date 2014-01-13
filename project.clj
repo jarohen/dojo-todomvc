@@ -49,14 +49,7 @@
 
                                    ;; uncomment for source-maps
                                         ; :source-map "target/resources/js/todomvc.js.map"
-                                   }}
-
-                       {:source-paths ["src/cljs" "target/generated/cljs"]
-                        :id "prod"
-                        :compiler {:output-to "target/resources/js/todomvc.js"
-                                   :optimizations :advanced
-                                   :pretty-print false
-                                   :externs ["externs/jquery.js"]}}]}
+                                   }}]}
 
   :aliases {"dev" ["pdo" "cljx" "auto," "cljsbuild" "auto," "frodo"]
             "start" ["do" "cljx" "once," "cljsbuild" "once" "prod," "trampoline" "frodo"]})

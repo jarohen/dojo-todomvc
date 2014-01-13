@@ -4,9 +4,11 @@
               [cloact.core :as cloact :refer [atom]])
     (:require-macros [dommy.macros :refer [sel sel1]]))
 
+(def click-count (atom 0))
+
 (defn child [props]
-  [:p
-   "Hi, I am " (:name props)])
+  [:p {:on-click #(swap! click-count inc)}
+   "I have been clicked " @click-count " times."] )
 
 (defn childcaller []
   [child {:name "Dave"}])
