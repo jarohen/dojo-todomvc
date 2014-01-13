@@ -5,36 +5,28 @@
     (:require-macros [dommy.macros :refer [sel sel1]]))
 
 (def example-todos
-  [{:caption "Clean the bathroom" :done? true :id 0}
-   {:caption "Clean the kitchen" :done? false :id 1}])
-
-(def !last-id (atom 1))
+  [{:caption "Clean the bathroom" :done? true}
+   {:caption "Clean the kitchen" :done? false}])
 
 (def !todos (atom example-todos))
 
-(defn update-entry [idx]
-  (let [f #(update-in % [idx :done?] not)]
-    (swap! !todos f)
-    )
+(defn toggle-done [idx]
+  (swap! !todos update-in [idx :done?] not)) 
 
-  )
+(defn todo-item []
+  (fn [{:keys [key todo]}]
+    (let [{:keys [caption done?]} todo]
+      [:li {:key key :style (cond-> {} done? (assoc :text-decoration :line-through))}
+       [:input {:type "checkbox" :checked done? :on-change #(toggle-done key)}]
+       [:span {:style {:margin-left "1em"}} caption]])))
 
 (defn todo-component []
   [:div.row
    [:ul {:style {:list-style-type :none
                  :margin-top "3em"}}
     (js/console.log (pr-str @!todos))
-    (for [[idx {:keys [done? caption]}] (map vector (range) @!todos)]
-      [:li {:key idx :style (when done? {:text-decoration :line-through})}
-       ;;       [:input {:type "checkbox" :checked done? :on-change #(swap! !todos update-in [idx :done?] not)}]
-       [:input {:type "checkbox" :checked done? :on-change #(update-entry idx)}]
-;;       [:input {:type "checkbox" :checked done? :on-change #(swap! !todos inc)}]
-       [:span {:style {:margin-left "1em"}} caption]])]])
-
-(defn add-task! [task]
-  (swap! !todos conj {:caption task :done? false}))
-
-
+    (for [[idx todo] (map vector (range) @!todos)]
+      [todo-item {:key idx :todo todo}])]])
 
 (set! (.-onload js/window)
       (fn []
