@@ -12,6 +12,7 @@
     [:title "todomvc - CLJS Single Page Web Application"]
     (include-js "//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js")
     (include-js "//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js")
+    (include-js "//fb.me/react-0.8.0.js")
     (include-css "//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css")
 
     (include-js "/js/todomvc.js")]

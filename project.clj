@@ -45,7 +45,7 @@
                                    :output-dir "target/resources/js/"
                                    :optimizations :simple
                                    :pretty-print true
-                                   :preamble ["cloact/react.js"]
+                                   ;;:preamble ["cloact/react.js"]
 
                                    ;; uncomment for source-maps
                                         ; :source-map "target/resources/js/todomvc.js.map"

@@ -4,18 +4,41 @@
               [cloact.core :as cloact :refer [atom]])
     (:require-macros [dommy.macros :refer [sel sel1]]))
 
-(def click-count (atom 0))
+(def example-todos
+  [{:caption "Clean the bathroom" :done? true :id 0}
+   {:caption "Clean the kitchen" :done? false :id 1}])
 
-(defn child [props]
-  [:p {:on-click #(swap! click-count inc)}
-   "I have been clicked " @click-count " times."] )
+(def !last-id (atom 1))
 
-(defn childcaller []
-  [child {:name "Dave"}])
+(def !todos (atom example-todos))
+
+(defn update-entry [idx]
+  (let [f #(update-in % [idx :done?] not)]
+    (swap! !todos f)
+    )
+
+  )
+
+(defn todo-component []
+  [:div.row
+   [:ul {:style {:list-style-type :none
+                 :margin-top "3em"}}
+    (js/console.log (pr-str @!todos))
+    (for [[idx {:keys [done? caption]}] (map vector (range) @!todos)]
+      [:li {:key idx :style (when done? {:text-decoration :line-through})}
+       ;;       [:input {:type "checkbox" :checked done? :on-change #(swap! !todos update-in [idx :done?] not)}]
+       [:input {:type "checkbox" :checked done? :on-change #(update-entry idx)}]
+;;       [:input {:type "checkbox" :checked done? :on-change #(swap! !todos inc)}]
+       [:span {:style {:margin-left "1em"}} caption]])]])
+
+(defn add-task! [task]
+  (swap! !todos conj {:caption task :done? false}))
+
+
 
 (set! (.-onload js/window)
       (fn []
-        (cloact/render-component [childcaller]
+        (cloact/render-component [todo-component]
                                  (.-body js/document))))
 
 
