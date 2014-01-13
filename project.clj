@@ -43,7 +43,7 @@
   :cljsbuild {:builds [{:source-paths ["src/cljs" "target/generated/cljs"]
                         :compiler {:output-to "target/resources/js/todomvc.js"
                                    :output-dir "target/resources/js/"
-                                   :optimizations :whitespace
+                                   :optimizations :simple
                                    :pretty-print true
                                    :preamble ["cloact/react.js"]
 
